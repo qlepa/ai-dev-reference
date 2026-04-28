@@ -1,0 +1,213 @@
+# Fresh Project — AI-Readiness Audit
+> You are auditing an existing, recently-started project to make it fully ready for AI-assisted development. For each item: check the current state, assign a status (✅ pass / ⚠️ partial / ❌ missing), fix or scaffold what's missing, and document what you did. Do not change production logic — only add missing config and documentation.
+
+---
+
+## Context *(fill this in before handing to AI)*
+
+```
+Project name     : 
+Short description: 
+Tech stack       : 
+Approximate age  : 
+Primary AI tool  : [ ] Claude Code  [ ] Cursor  [ ] Copilot  [ ] Other: ___
+Repo location    : 
+Known gaps       : (anything you already know is missing)
+```
+
+---
+
+## 1. AI Instruction Files
+
+**Why this matters:** Without these files, AI starts every session with zero project context. You'll repeat yourself in every conversation.
+
+- [ ] `CLAUDE.md` exists and is accurate
+  - Contains: project overview, stack, folder structure, naming conventions, areas to avoid
+  - If missing: create it. If outdated: update it to reflect current state.
+- [ ] `.cursorrules` or `.cursor/rules/*.mdc` exists (if Cursor is used)
+  - Suggested split: `shared.mdc`, `frontend.mdc`, `backend.mdc`, `testing.mdc`
+  - If missing: generate from current codebase
+- [ ] `.github/copilot-instructions.md` exists (if Copilot is used)
+- [ ] All instruction files are under 500 lines each
+
+**Action if files are missing:** Read the existing codebase (entry points, folder structure, key files) and generate CLAUDE.md with:
+- One-paragraph project description
+- Tech stack list
+- Folder map with one-line descriptions
+- Observed naming and coding conventions
+- Any patterns you notice that should be preserved
+
+---
+
+## 2. Project Comprehension
+
+**Why this matters:** AI should understand the project before making changes. Generate this understanding once and store it permanently.
+
+- [ ] Read `README.md` — does it accurately describe the project? Update if not.
+- [ ] Identify entry points (main files, route definitions, API handlers)
+- [ ] Map top-level folder structure and understand what each folder does
+- [ ] Identify the 3–5 most important files (high-change rate or core business logic)
+- [ ] Add an **Architecture Summary** section to `CLAUDE.md`:
+  ```
+  ## Architecture Summary
+  [1–2 paragraph description of how the app is structured, 
+  data flows, key components and how they connect]
+  ```
+- [ ] Check if `.ai/` folder exists with planning documents (prd.md, tech-stack.md, etc.)
+  - If not: create `.ai/` folder and add a `context.md` with a brief project description
+
+---
+
+## 3. Code Quality Tooling
+
+**Why this matters:** Linters give AI an automatic feedback loop — it generates code, sees errors, self-corrects. Without linters, AI silently produces broken code.
+
+- [ ] Linter configured?
+  - Check for config files: `.eslintrc*`, `pylintrc`, `.golangci.yml`, etc.
+  - Run linter: record the error count (don't fix all — just know the state)
+  - **Status: ✅ / ⚠️ (configured but errors exist) / ❌ (missing)**
+- [ ] Formatter configured?
+  - Check for: `.prettierrc`, `pyproject.toml [tool.black]`, `.editorconfig`, etc.
+  - **Status: ✅ / ⚠️ / ❌**
+- [ ] Type checker clean?
+  - Run: `tsc --noEmit` (TS), `mypy src/` (Python), etc.
+  - Report error count. Do not fix all — flag the top 3 worst files.
+  - **Status: ✅ / ⚠️ (N errors) / ❌ (not configured)**
+- [ ] If linter/formatter is missing: scaffold a minimal config appropriate for the stack
+
+Document in CLAUDE.md: `npm run lint`, `npm run format`, `npm run typecheck` (or equivalent).
+
+---
+
+## 4. Type Safety
+
+**Why this matters:** Explicit types are contracts AI can read reliably. Untyped code makes AI guess — and it guesses wrong under pressure.
+
+- [ ] Is the project using a typed language or has type annotations?
+- [ ] Is strict mode enabled? (TypeScript `"strict": true`, mypy strict, etc.)
+- [ ] Identify top 3 files with the most untyped / `any` usage — flag for future attention
+- [ ] Are shared data models (API responses, DB schemas, DTOs) defined in one canonical place?
+  - If not: note which types are duplicated or implicit
+
+---
+
+## 5. Secrets & Security
+
+**Why this matters:** One committed secret can compromise the project. AI tools also must not read your `.env` file.
+
+- [ ] `.env` is in `.gitignore`
+  - Verify: `git check-ignore -v .env` — should output a match
+- [ ] `.env.example` exists and lists every required variable
+  - If missing: create it by reading `.env` structure (values replaced with placeholders)
+- [ ] Scan tracked files for hardcoded secrets:
+  ```bash
+  git grep -rn "sk-\|api_key\|password\s*=\|secret\s*=\|token\s*=" -- ':!*.example' ':!*.md'
+  ```
+  Report any hits. Do not automatically remove — flag for human review.
+- [ ] `.cursorignore` / `.claudeignore` exists and excludes `.env*`
+  - If missing: create it with `.env*` entry
+- [ ] Check git history for accidentally committed secrets:
+  ```bash
+  git log --all --full-history -- "*.env" "**/.env"
+  ```
+  Report any hits.
+
+---
+
+## 6. Git Hygiene
+
+**Why this matters:** Descriptive commit history is extra context for AI. It reveals *why* code changed, which helps AI make consistent decisions.
+
+- [ ] Are recent commits following a consistent format?
+  - Check last 20 commits: `git log --oneline -20`
+  - Good: `feat: add user auth`, `fix: prevent null ref in session`
+  - Bad: `fix`, `update`, `wip`, `asdf`
+- [ ] Conventional commits adopted? (`feat:`, `fix:`, `chore:`, `docs:`, `refactor:`, `test:`)
+  - If not: add recommendation and format to CLAUDE.md
+- [ ] `.gitignore` appropriate for the stack?
+  - Check for common omissions (build artifacts, IDE files, OS files)
+  - Reference: gitignore.io for stack-specific templates
+
+---
+
+## 7. Dependencies
+
+**Why this matters:** Outdated or vulnerable dependencies create noise and potential security issues that distract AI and create tech debt.
+
+- [ ] Run the package manager's audit command:
+  - JS/TS: `npm audit` or `yarn audit`
+  - Python: `pip-audit` or `safety check`
+  - Ruby: `bundle audit`
+  - Go: `govulncheck ./...`
+- [ ] List packages with HIGH or CRITICAL vulnerabilities
+- [ ] Identify packages that are significantly outdated (major versions behind)
+- [ ] Flag any abandoned packages (no releases in 2+ years, archived repo)
+- [ ] Do NOT automatically upgrade — report findings for human decision
+
+---
+
+## 8. Module Structure
+
+**Why this matters:** Large files with mixed responsibilities are hard for AI to reason about and easy for it to break.
+
+- [ ] Find files over 300 lines:
+  ```bash
+  find . -name "*.ts" -o -name "*.py" -o -name "*.js" | xargs wc -l | sort -rn | head -20
+  ```
+  (adjust extensions for your stack)
+- [ ] For each large file: does it have a single clear responsibility? Flag files that mix multiple concerns.
+- [ ] Are there files named `utils`, `helpers`, `common`, or `misc` that have grown into catch-all dumping grounds? Flag them.
+- [ ] Are imports clean? (No circular deps, no reaching deep into another module's internals)
+
+---
+
+## 9. Testing State
+
+**Why this matters:** Tests are the feedback loop AI uses during agentic tasks. Without tests, AI edits blindly.
+
+- [ ] Does a test framework exist?
+  - Look for: `jest.config.*`, `vitest.config.*`, `pytest.ini`, `spec/` folder, etc.
+- [ ] Run tests: `npm test` / `pytest` / equivalent
+  - Report: number of tests, pass/fail, coverage if available
+- [ ] Identify the 3 most critical paths that have NO test coverage
+  - Priority: auth flows, payment/billing logic, data mutation endpoints
+- [ ] Is there a single command to run all tests?
+  - If not: add it to `package.json` scripts or a `Makefile`
+
+---
+
+## Deliverables
+
+At the end of this audit, produce `audit-report.md` in the `.ai/` folder:
+
+```markdown
+# AI-Readiness Audit — [Project Name] — [Date]
+
+## Summary
+[2–3 sentence overall assessment]
+
+## Status by Area
+
+| Area                    | Status | Notes |
+|-------------------------|--------|-------|
+| AI instruction files    | ✅/⚠️/❌ | |
+| Project comprehension   | ✅/⚠️/❌ | |
+| Code quality tooling    | ✅/⚠️/❌ | |
+| Type safety             | ✅/⚠️/❌ | |
+| Secrets & security      | ✅/⚠️/❌ | |
+| Git hygiene             | ✅/⚠️/❌ | |
+| Dependencies            | ✅/⚠️/❌ | |
+| Module structure        | ✅/⚠️/❌ | |
+| Testing                 | ✅/⚠️/❌ | |
+
+## Files Created / Updated
+- [list]
+
+## Prioritized Action List
+1. [Most critical — blocks AI work]
+2. [Important — should fix soon]
+3. [Nice to have — low urgency]
+
+## Issues Requiring Human Decision
+- [anything that needs manual review, e.g., exposed secrets, vulnerable deps]
+```

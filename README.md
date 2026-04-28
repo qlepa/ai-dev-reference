@@ -1,0 +1,103 @@
+# AI-Assisted Development Reference Library
+
+A modular, project-agnostic library of reference documents for AI-assisted software development. Attach individual files to any AI tool (Claude Code, Cursor, Copilot) to give it the context it needs for a specific task — without repeating yourself every session.
+
+---
+
+## Structure
+
+```
+base/      Layer 1 — Self-contained base files. Fill the context section, hand to AI.
+topics/    Layer 2 — Topic files. Attach when the topic is relevant.
+tech/      Layer 3 — Tech-specific files. Attach when working with a given technology.
+```
+
+---
+
+## How It Works
+
+**Example:** Starting a new Next.js project with Vitest and Tailwind?
+Attach: `base/new.md` + `tech/nextjs.md` + `tech/react.md` + `tech/vitest.md` + `tech/tailwind.md`
+
+**Example:** Auditing an existing Next.js app for AI-readiness?
+Attach: `base/fresh.md` + `tech/nextjs.md` + `tech/react.md`
+
+**Example:** Long session going off track?
+Attach: `topics/context.md` — follow the recovery procedure inside.
+
+---
+
+## Layer 1 — Base Files (`base/`)
+
+These files are fully self-contained. Each has a **Context** section you fill in before handing the file to the AI. The AI then works through the checklist top to bottom without needing additional instructions.
+
+| File | When to use |
+|------|-------------|
+| [`base/new.md`](base/new.md) | Starting a project from scratch. Bootstraps CLAUDE.md, linting, type safety, secrets hygiene, testing scaffold, git setup, and Claude Code hooks. Produces `setup-report.md`. |
+| [`base/fresh.md`](base/fresh.md) | Existing project (weeks or months old) with gaps in AI-readiness. Audits every area and produces a traffic-light `audit-report.md` with a prioritized action list. |
+| [`base/legacy.md`](base/legacy.md) | Long-running legacy codebase. Maps the architecture, finds dead code and hotspots, creates a safety net of characterization tests, and produces a `legacy-onboarding-report.md` before touching anything. |
+
+---
+
+## Layer 2 — Topic Files (`topics/`)
+
+Attach these to any conversation where the topic is relevant. They work alongside base files or on their own.
+
+| File | When to use |
+|------|-------------|
+| [`topics/prompting.md`](topics/prompting.md) | Writing or improving prompts. Covers the five prompt elements, meta-prompting, the Socratic method, five anti-sycophancy techniques, XML tag structuring for complex prompts, and patterns for common tasks (review, debug, plan). |
+| [`topics/context.md`](topics/context.md) | Managing long sessions. Covers `/compact`, `/clear`, Plan Mode, context rot and drift, the Rule of Three, token budget strategy, and the multi-session handover pattern. |
+| [`topics/ai-instructions.md`](topics/ai-instructions.md) | Setting up or auditing AI instruction files. Covers CLAUDE.md structure and limits, the Three-Tier Memory Model, `.cursor/rules/*.mdc` format, AGENTS.md for async agents, hooks, subagents, and permissions. |
+| [`topics/testing.md`](topics/testing.md) | Test strategy and setup. Covers the Test Plan → Vitest → Playwright pipeline, characterization tests for legacy code, Page Object Model, data-testid conventions, dedicated test databases, and CI integration. |
+| [`topics/cicd.md`](topics/cicd.md) | GitHub Actions pipelines. Covers PR pipeline (parallel jobs), deploy pipeline (sequential with `needs:`), secrets management, branch protection rules, caching, and AI-powered CI steps. |
+| [`topics/modernization.md`](topics/modernization.md) | Modernizing a legacy codebase. Covers AI-rewrite vs codemod vs manual classification, the hybrid approach (codemod 80% + AI 20%), migration guides as AI context, Domain-Driven Design with AI, and safe modernization checklists. |
+| [`topics/model-selection.md`](topics/model-selection.md) | Choosing the right model for a task. Covers the coder vs architect model categories, a decision matrix (Haiku/Sonnet/Opus), why English saves 33–40% tokens, multi-model workflows, and cost management. |
+| [`topics/ai-project-checklist.md`](topics/ai-project-checklist.md) | Auditing a project's AI-readiness. A 36-item Yes/No checklist across: instruction files, automated quality gates, Claude Code features, codebase structure, security, cost optimization, and workflow patterns. Produces a score with a maturity assessment. |
+
+---
+
+## Layer 3 — Tech-Specific Files (`tech/`)
+
+Attach when working with a specific technology. Each file contains configuration patterns, conventions, common AI mistakes to avoid, and a ready-to-paste CLAUDE.md snippet for that technology.
+
+| File | Technology |
+|------|------------|
+| [`tech/nextjs.md`](tech/nextjs.md) + [`tech/react.md`](tech/react.md) | **Use together for any Next.js project.** `nextjs.md`: technical + AI-readiness audit covering App Router, Server vs Client Components, data fetching, caching, performance, security, SEO, and skills/agents to leave for AI agents. `react.md`: component design, state management, hooks, performance, and React-specific AI-readiness patterns. |
+| [`tech/security.md`](tech/security.md) | **Next.js security audit.** Attach alongside `tech/nextjs.md` when hardening or auditing a project before launch. Covers: auth token storage (HttpOnly cookies vs localStorage), JWT lifecycle, security headers (CSP, HSTS, X-Frame-Options), input validation (Zod, XSS, SQL injection), secrets management, API authorization (authn vs authz, IDOR), rate limiting, GDPR basics, dependency scanning. |
+| [`tech/astro.md`](tech/astro.md) | Astro Islands architecture, `.astro` file anatomy, `client:` directives, rendering modes (static/server/hybrid), content collections with Zod schemas, integrations, file-based routing. |
+| [`tech/typescript.md`](tech/typescript.md) | Strict mode config (`noUncheckedIndexedAccess`, `exactOptionalPropertyTypes`), no-any policy, DTOs in one place, discriminated unions, exhaustive checks with `assertNever`, type-safe env vars with Zod, `tsc --noEmit` in CI. |
+| [`tech/tailwind.md`](tech/tailwind.md) | Config and content paths, CSS variables for theming (shadcn/ui convention), `cn()` utility, `cva` for component variants, class ordering convention, dark mode, shadcn/ui integration. |
+| [`tech/vitest.md`](tech/vitest.md) | Full config, `"test": "vitest run"` (not `vitest` — watch mode hangs agents), globals, mocking patterns, fake timers, React Testing Library, real DB integration tests, coverage thresholds. |
+| [`tech/playwright.md`](tech/playwright.md) | Dedicated test database with `dev:test` script, global setup/teardown, Page Object Model (full example), data-testid inside components, selector priority, auth fixtures, CI browser caching. |
+| [`tech/supabase.md`](tech/supabase.md) | Local dev with `npx supabase start`, three client types (browser/server/admin), migrations workflow, RLS policies, auth patterns, middleware, type generation. |
+| [`tech/mcp.md`](tech/mcp.md) | MCP protocol (Tools/Resources/Prompts), `.claude/mcp.json` and `.cursor/mcp.json` config, useful servers (Context7, Filesystem, GitHub), `llms.txt` standard, security checklist, building a custom TypeScript MCP server. |
+
+---
+
+## Attaching Files to AI Tools
+
+**Claude Code**
+```
+Read base/new.md and tech/nextjs.md. Fill the context section with: [your project details]. Then work through the checklist.
+```
+
+**Cursor**
+Use `@base/new.md` in the chat to attach a file directly.
+
+**Any tool**
+Paste the file contents into the system prompt or the start of the conversation. Files are designed to be self-explanatory — the AI receiving them knows what to do.
+
+---
+
+## Design Principles
+
+- **No cross-file dependencies** — every file is readable standalone
+- **English throughout** — 33–40% fewer tokens than equivalent content in other languages
+- **Tag: CRITICAL / RECOMMENDED / OPTIONAL** — the checklist file uses 🔴/🟡/🟢 tags so AI knows what to do first
+- **No hypothetical advice** — every pattern here is derived from real AI-assisted development workflows
+
+---
+
+## Author
+
+Created by [Tomasz Klepacki](https://github.com/qlepa) — MIT License
