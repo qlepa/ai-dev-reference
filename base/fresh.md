@@ -178,10 +178,10 @@ Document in CLAUDE.md: `npm run lint`, `npm run format`, `npm run typecheck` (or
 
 ## Deliverables
 
-At the end of this audit, produce `audit-report.md` in the `.ai/` folder:
+At the end of this audit, produce `audit-report-YYYY-MM-DD.md` (use today's date) in the `.ai/` or `ai-audit/` folder — whichever exists in this project. If a previous report already exists, do not overwrite it — create a new file with today's date.
 
 ```markdown
-# AI-Readiness Audit — [Project Name] — [Date]
+# AI-Readiness Audit — [Project Name] — YYYY-MM-DD
 
 ## Summary
 [2–3 sentence overall assessment]

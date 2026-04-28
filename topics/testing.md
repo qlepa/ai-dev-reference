@@ -319,7 +319,7 @@ Add this section to CLAUDE.md:
 
 When you inherit a codebase with no tests and no documentation, generating tests from code is hard — you don't know what the intended behavior is. An alternative: record a user session and let a multimodal model extract test scenarios from the video.
 
-### Approach: @10xdevspl/test-planner
+### Optional approach: video-to-test-plan tools (example: @10xdevspl/test-planner)
 
 ```bash
 # Requires: GEMINI_API_KEY in .env or environment
@@ -330,11 +330,11 @@ ffmpeg -i session.mov -r 15 -c:v libx264 -crf 23 session_15fps.mov
 npx @10xdevspl/test-planner --video=session_15fps.mov --outDir=./e2e --optimize --fps=15
 ```
 
-**What it does:**
+**What this class of tools does (not vendor-specific):**
 1. Sends video frames to Gemini 2.5 Flash (1M context window supports up to ~60min of video)
 2. Model identifies distinct user flows, UI elements, and interaction sequences
 3. Outputs a `test-plan.md` (business test plan) + agent instructions for Playwright test implementation
-4. You then run an AI agent to implement the actual test files from the plan
+4. You then run an AI agent (or implement manually) to create real test files from the plan
 
 **Token cost estimate:** 60s @ 24fps ≈ 40k tokens. Optimizing to 15fps cuts cost by ~40%.
 
@@ -347,6 +347,12 @@ npx @10xdevspl/test-planner --video=session_15fps.mov --outDir=./e2e --optimize 
 - Legacy code with zero tests — you don't know what "correct" looks like
 - Rapid regression test creation before a refactor
 - Onboarding to an unfamiliar system — the video teaches both you and the AI
+
+If you prefer no dependency on a specific external tool, keep the same workflow:
+1. Record a short user session video
+2. Ask your model of choice to produce a `test-plan.md` from that video
+3. Implement tests from the plan using Playwright/Cypress/Vitest
+4. Review selectors/assertions manually before committing
 
 **Alternative: Playwright Test Generator** (simpler but no AI analysis)
 ```bash

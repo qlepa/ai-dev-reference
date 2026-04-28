@@ -209,7 +209,7 @@ Always exclude: secrets, build artifacts, generated files, lock files, large bin
 
 ### Generating rules automatically
 
-**10xRules.ai** — generates `.cursor/rules/*.mdc` files from your project description. Useful starting point; review and prune before using.
+**10xRules.ai** — optional helper that generates `.cursor/rules/*.mdc` files from your project description. Treat output as a draft only; keep your rules portable so they do not depend on any single service.
 
 **cursor.directory** — community-contributed rule sets by technology. Good reference for standard patterns.
 
@@ -386,6 +386,10 @@ When you update conventions (new linter rule, new folder structure, renamed patt
 3. Commit the instruction file changes together with the code change that caused them
 
 **Never let instruction files lag behind the codebase.** Stale instructions produce inconsistent AI behavior that is hard to debug — the AI follows the rules you wrote, not the rules you meant.
+
+### Vendor-neutral guidance
+
+When this document references named tools or services, treat them as examples of a category, not mandatory dependencies. Prefer workflows that remain portable across providers and can be replaced without changing your repository conventions.
 
 ### CLAUDE.md as a Living Document: The PR Feedback Loop
 

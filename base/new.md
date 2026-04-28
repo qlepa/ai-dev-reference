@@ -99,7 +99,7 @@ Wait for my answers before writing anything.
 - `.cursor/rules/*.mdc` files: under 500 lines per file. Split by domain (shared / frontend / backend / testing).
 - Write rules in imperative English ("Use X", "Never Y", "Always Z")
 - Update these files whenever project conventions change
-- Reference: https://10xrules.ai for community-contributed rule templates
+- Optional helpers: any rules generator can be used as a starting point; treat generated rules as drafts and keep final rules repository-owned.
 
 ---
 
@@ -244,10 +244,10 @@ Wait for my answers before writing anything.
 
 ## Deliverables
 
-At the end of this setup, produce `setup-report.md` in the `.ai/` folder with:
+At the end of this setup, produce `setup-report-YYYY-MM-DD.md` (use today's date) in the `.ai/` or `ai-audit/` folder — whichever exists in this project. If a previous report already exists, do not overwrite it — create a new file with today's date.
 
 ```markdown
-# Setup Report — [Project Name] — [Date]
+# Setup Report — [Project Name] — YYYY-MM-DD
 
 ## Created
 - List every file created, with a one-line description

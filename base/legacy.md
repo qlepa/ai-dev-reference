@@ -218,7 +218,7 @@ Create `CLAUDE.md` in the repo root. For legacy projects, it must include these 
   git grep -rn "TODO\|FIXME\|HACK\|XXX"
   ```
   Count and categorize — don't fix, just map.
-- [ ] Create `dead-code-report.md` in `.ai/`:
+- [ ] Create `dead-code-report-YYYY-MM-DD.md` (use today's date) in `.ai/` or `ai-audit/`:
   - Unused files list
   - Top 10 largest commented blocks
   - TODO/FIXME count by category
@@ -264,7 +264,7 @@ For every significant finding, classify it as:
 
 ### 5.2 Create modernization-plan.md
 
-Create `.ai/modernization-plan.md`:
+Create `modernization-plan-YYYY-MM-DD.md` (use today's date) in `.ai/` or `ai-audit/`:
 
 ```markdown
 # Modernization Plan — [Project Name] — [Date]
@@ -292,10 +292,10 @@ Create `.ai/modernization-plan.md`:
 
 ## Deliverables
 
-At the end of this session, produce `legacy-onboarding-report.md` in the `.ai/` folder:
+At the end of this session, produce `legacy-onboarding-report-YYYY-MM-DD.md` (use today's date) in the `.ai/` or `ai-audit/` folder — whichever exists in this project. If a previous report already exists, do not overwrite it — create a new file with today's date.
 
 ```markdown
-# Legacy Onboarding Report — [Project Name] — [Date]
+# Legacy Onboarding Report — [Project Name] — YYYY-MM-DD
 
 ## Architecture Summary
 [Condensed version — 1 paragraph + key files list]
