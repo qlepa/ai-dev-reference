@@ -1,5 +1,5 @@
 # Tailwind CSS — AI Development Reference
-> Attach when working on a project that uses Tailwind CSS. Covers configuration, design tokens, class organization, and patterns for maintainable AI-generated styles.
+> Attach when working on a project that uses Tailwind CSS. Covers configuration, design tokens, class organization, and patterns for maintainable AI-generated styles. If no base file (`fresh.md`, `new.md`, or `legacy.md`) is attached alongside this one, run a standalone audit: treat each section's guidelines as a checklist, assess the current state (✅ pass / ⚠️ partial / ❌ missing), and save a report as `tailwind-audit-YYYY-MM-DD.md`.
 
 ---
 

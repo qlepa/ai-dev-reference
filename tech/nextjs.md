@@ -3,6 +3,7 @@
 > 1. **Technical audit** — architecture, performance, security, SEO, testing
 > 2. **AI-readiness audit** — what instructions, skills, and agents to leave so AI agents work reliably in this codebase going forward
 >
+> If no base file (`fresh.md`, `new.md`, or `legacy.md`) is attached alongside this one, run a standalone audit: treat each section's guidelines as a checklist, assess the current state (✅ pass / ⚠️ partial / ❌ missing), and save a report as `nextjs-audit-YYYY-MM-DD.md`.
 > **How to use:** Paste into Claude with the project open. Ask:
 > *"Audit this Next.js project against every section. For each item: current state, gap, and recommended fix or instruction to add."*
 > At the end, ask Claude to produce `nextjs-audit-report.md` with traffic-light status and a prioritised action list.

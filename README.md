@@ -35,7 +35,7 @@ Instead of reading files from the library by absolute path each time, copy the r
 
 1. Copy the base file and any relevant `tech/` files into `ai-audit/` in your project
 2. Fill in the Context section of the copied base file
-3. Tell the AI to read `ai-audit/fresh.md` (or whichever base file you copied) and save the report as `ai-audit/audit-report-YYYY-MM-DD.md`
+3. **Attach all files simultaneously** to the AI conversation — base file + all relevant tech/topic files. They must be present in the same context window (copying to the folder alone is not enough). Then ask the AI to work through the base file and save the report as `ai-audit/audit-report-YYYY-MM-DD.md`. The `ai-audit/` folder is optional — you can also attach files directly from the library.
 
 **Example folder structure after two audit runs:**
 
@@ -86,12 +86,12 @@ Attach these to any conversation where the topic is relevant. They work alongsid
 
 ## Layer 3 — Tech-Specific Files (`tech/`)
 
-Attach when working with a specific technology. Each file contains configuration patterns, conventions, common AI mistakes to avoid, and a ready-to-paste CLAUDE.md snippet for that technology.
+Attach when working with a specific technology. Each file contains configuration patterns, conventions, common AI mistakes to avoid, and a ready-to-paste CLAUDE.md snippet for that technology. Each `tech/` file can also run as a **standalone audit** without a base file — if no base file is attached, the AI switches to audit mode automatically and saves a dated report.
 
 | File | Technology |
 |------|------------|
 | [`tech/nextjs.md`](tech/nextjs.md) + [`tech/react.md`](tech/react.md) | **Use together for any Next.js project.** `nextjs.md`: technical + AI-readiness audit covering App Router, Server vs Client Components, data fetching, caching, performance, security, SEO, and skills/agents to leave for AI agents. `react.md`: component design, state management, hooks, performance, and React-specific AI-readiness patterns. |
-| [`tech/security.md`](tech/security.md) | **Next.js security audit.** Attach alongside `tech/nextjs.md` when hardening or auditing a project before launch. Covers: auth token storage (HttpOnly cookies vs localStorage), JWT lifecycle, security headers (CSP, HSTS, X-Frame-Options), input validation (Zod, XSS, SQL injection), secrets management, API authorization (authn vs authz, IDOR), rate limiting, GDPR basics, dependency scanning. |
+| [`tech/nextjs-security.md`](tech/nextjs-security.md) | **Next.js security audit.** Attach alongside `tech/nextjs.md` when hardening or auditing a project before launch. Covers: auth token storage (HttpOnly cookies vs localStorage), JWT lifecycle, security headers (CSP, HSTS, X-Frame-Options), input validation (Zod, XSS, SQL injection), secrets management, API authorization (authn vs authz, IDOR), rate limiting, GDPR basics, dependency scanning. |
 | [`tech/astro.md`](tech/astro.md) | Astro Islands architecture, `.astro` file anatomy, `client:` directives, rendering modes (static/server/hybrid), content collections with Zod schemas, integrations, file-based routing. |
 | [`tech/typescript.md`](tech/typescript.md) | Strict mode config (`noUncheckedIndexedAccess`, `exactOptionalPropertyTypes`), no-any policy, DTOs in one place, discriminated unions, exhaustive checks with `assertNever`, type-safe env vars with Zod, `tsc --noEmit` in CI. |
 | [`tech/tailwind.md`](tech/tailwind.md) | Config and content paths, CSS variables for theming (shadcn/ui convention), `cn()` utility, `cva` for component variants, class ordering convention, dark mode, shadcn/ui integration. |
@@ -106,7 +106,7 @@ Attach when working with a specific technology. Each file contains configuration
 
 **Claude Code**
 ```
-Read base/new.md and tech/nextjs.md. Fill the context section with: [your project details]. Then work through the checklist.
+Attach base/new.md and tech/nextjs.md to this conversation (both files, simultaneously). The context section in new.md should already be filled in. Then: work through the checklist.
 ```
 
 **Cursor**

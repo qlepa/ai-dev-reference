@@ -1,5 +1,5 @@
 # TypeScript — AI Development Reference
-> Attach this file when working on a TypeScript project. Covers strict configuration, type safety patterns, and conventions that produce reliable AI-generated code.
+> Attach this file when working on a TypeScript project. Covers strict configuration, type safety patterns, and conventions that produce reliable AI-generated code. If no base file (`fresh.md`, `new.md`, or `legacy.md`) is attached alongside this one, run a standalone audit: treat each section's guidelines as a checklist, assess the current state (✅ pass / ⚠️ partial / ❌ missing), and save a report as `typescript-audit-YYYY-MM-DD.md`.
 
 ---
 

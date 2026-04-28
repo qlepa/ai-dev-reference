@@ -3,6 +3,43 @@
 
 ---
 
+## Companion Files
+
+Before starting: read the **Tech stack** field in Context. Cross-reference it against this list of known companion files:
+
+| Technology | File to attach |
+|------------|----------------|
+| Next.js | `nextjs.md` + `react.md` |
+| React (standalone) | `react.md` |
+| TypeScript | `typescript.md` |
+| Tailwind CSS | `tailwind.md` |
+| Vitest | `vitest.md` |
+| Playwright | `playwright.md` |
+| Supabase | `supabase.md` |
+| Astro | `astro.md` |
+| MCP | `mcp.md` |
+| Next.js security hardening | `nextjs-security.md` |
+
+**Topics files** (attach when relevant):
+
+| Topic | File to attach |
+|-------|----------------|
+| Test strategy | `testing.md` |
+| CI/CD pipeline | `cicd.md` |
+| Prompting patterns | `prompting.md` |
+| Context management | `context.md` |
+| AI instruction files | `ai-instructions.md` |
+| Codebase modernization | `modernization.md` |
+| Model selection | `model-selection.md` |
+| AI-readiness checklist | `ai-project-checklist.md` |
+
+For each matched file: check if it is present in this conversation. If a matching file is missing, ask the user before proceeding:
+> "I see your stack includes [technology]. Should I wait for `[filename]` before starting, or continue without it?"
+
+**Important:** Files must be attached to this conversation — copying them to the same folder is not enough.
+
+---
+
 ## Context *(fill this in before handing to AI)*
 
 ```

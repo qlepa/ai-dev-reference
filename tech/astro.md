@@ -1,5 +1,5 @@
 # Astro — AI Development Reference
-> Attach this file when working on an Astro project. Covers the Islands architecture, .astro file structure, content collections, integrations, and patterns that AI tools frequently get wrong.
+> Attach this file when working on an Astro project. Covers the Islands architecture, .astro file structure, content collections, integrations, and patterns that AI tools frequently get wrong. If no base file (`fresh.md`, `new.md`, or `legacy.md`) is attached alongside this one, run a standalone audit: treat each section's guidelines as a checklist, assess the current state (✅ pass / ⚠️ partial / ❌ missing), and save a report as `astro-audit-YYYY-MM-DD.md`.
 
 ---
 

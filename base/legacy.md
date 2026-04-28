@@ -3,6 +3,45 @@
 
 ---
 
+## Companion Files
+
+Before starting: read the **Tech stack** field in Context. Cross-reference it against this list of known companion files:
+
+| Technology | File to attach |
+|------------|----------------|
+| Next.js | `nextjs.md` + `react.md` |
+| React (standalone) | `react.md` |
+| TypeScript | `typescript.md` |
+| Tailwind CSS | `tailwind.md` |
+| Vitest | `vitest.md` |
+| Playwright | `playwright.md` |
+| Supabase | `supabase.md` |
+| Astro | `astro.md` |
+| MCP | `mcp.md` |
+| Next.js security hardening | `nextjs-security.md` |
+
+**Topics files** — scan **Known problem areas** and **What triggered this** fields:
+
+| If context mentions… | Suggest |
+|----------------------|---------|
+| *(always for legacy)* | `modernization.md` ✱ |
+| test / no tests / coverage / regression | `testing.md` |
+| CI / CD / deploy / pipeline / GitHub Actions | `cicd.md` |
+| AI instructions / CLAUDE.md / rules | `ai-instructions.md` |
+| prompt / prompting | `prompting.md` |
+| context / long session / token | `context.md` |
+| model / cost / expensive / budget | `model-selection.md` |
+| AI-ready / readiness / checklist | `ai-project-checklist.md` |
+
+✱ Recommended for all legacy projects — ask if not attached.
+
+For each matched file: check if it is present in this conversation. If a matching file is missing, ask the user before proceeding:
+> "Based on your context, `[filename]` looks relevant. Should I wait for it before starting, or continue without it?"
+
+**Important:** Files must be attached to this conversation — copying them to the same folder is not enough.
+
+---
+
 ## Context *(fill this in before handing to AI)*
 
 ```

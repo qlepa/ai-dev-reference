@@ -1,5 +1,5 @@
 # React — AI Development Reference
-> Attach when working on a React project. Covers component patterns, state management, performance, and conventions that produce reliable AI-generated components.
+> Attach when working on a React project. Covers component patterns, state management, performance, and conventions that produce reliable AI-generated components. If no base file (`fresh.md`, `new.md`, or `legacy.md`) is attached alongside this one, run a standalone audit: treat each section's guidelines as a checklist, assess the current state (✅ pass / ⚠️ partial / ❌ missing), and save a report as `react-audit-YYYY-MM-DD.md`.
 
 ---
 

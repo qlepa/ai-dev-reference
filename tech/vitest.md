@@ -1,5 +1,5 @@
 # Vitest — AI Development Reference
-> Attach when configuring Vitest or writing unit/integration tests with AI assistance. The most important rule is in Section 1.
+> Attach when configuring Vitest or writing unit/integration tests with AI assistance. The most important rule is in Section 1. If no base file (`fresh.md`, `new.md`, or `legacy.md`) is attached alongside this one, run a standalone audit: treat each section's guidelines as a checklist, assess the current state (✅ pass / ⚠️ partial / ❌ missing), and save a report as `vitest-audit-YYYY-MM-DD.md`.
 
 ---
 

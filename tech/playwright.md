@@ -1,5 +1,5 @@
 # Playwright — AI Development Reference
-> Attach when configuring Playwright or writing E2E tests with AI assistance. Covers setup, Page Object Model, test isolation, and CI integration.
+> Attach when configuring Playwright or writing E2E tests with AI assistance. Covers setup, Page Object Model, test isolation, and CI integration. If no base file (`fresh.md`, `new.md`, or `legacy.md`) is attached alongside this one, run a standalone audit: treat each section's guidelines as a checklist, assess the current state (✅ pass / ⚠️ partial / ❌ missing), and save a report as `playwright-audit-YYYY-MM-DD.md`.
 
 ---
 

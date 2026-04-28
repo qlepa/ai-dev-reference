@@ -1,5 +1,5 @@
 # MCP — Model Context Protocol Reference
-> Attach when setting up MCP servers, integrating external tools with AI assistants, or evaluating MCP server security. Covers architecture, configuration, and key servers worth using.
+> Attach when setting up MCP servers, integrating external tools with AI assistants, or evaluating MCP server security. Covers architecture, configuration, and key servers worth using. If no base file (`fresh.md`, `new.md`, or `legacy.md`) is attached alongside this one, run a standalone audit: treat each section's guidelines as a checklist, assess the current state (✅ pass / ⚠️ partial / ❌ missing), and save a report as `mcp-audit-YYYY-MM-DD.md`.
 
 ---
 

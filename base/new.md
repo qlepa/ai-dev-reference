@@ -1,5 +1,42 @@
 # New Project — AI-Ready Bootstrap
-> You are setting up a brand-new project for AI-assisted development. Work through every section top to bottom. For each item: check if it exists, create it if it doesn't, and report what you did. Do **not** skip sections — if something doesn't apply, say why.
+> You are setting up a brand-new project for AI-assisted development. Work through every section top to bottom. For each item: check if it exists, create it if it doesn't, and report what you did. Do **not** skip sections — if something doesn't apply, say why. Before starting: check the **Scaffold created** field in Context. If it is unchecked or blank, stop and tell the user to create the project scaffold first using their framework's CLI (e.g. `create-next-app`, `npm create vite`, `django-admin startproject`) — do not generate the boilerplate yourself.
+
+---
+
+## Companion Files
+
+Before starting: read the **Tech stack** field in Context. Cross-reference it against this list of known companion files:
+
+| Technology | File to attach |
+|------------|----------------|
+| Next.js | `nextjs.md` + `react.md` |
+| React (standalone) | `react.md` |
+| TypeScript | `typescript.md` |
+| Tailwind CSS | `tailwind.md` |
+| Vitest | `vitest.md` |
+| Playwright | `playwright.md` |
+| Supabase | `supabase.md` |
+| Astro | `astro.md` |
+| MCP | `mcp.md` |
+| Next.js security hardening | `nextjs-security.md` |
+
+**Topics files** (attach when relevant):
+
+| Topic | File to attach |
+|-------|----------------|
+| Test strategy | `testing.md` |
+| CI/CD pipeline | `cicd.md` |
+| Prompting patterns | `prompting.md` |
+| Context management | `context.md` |
+| AI instruction files | `ai-instructions.md` |
+| Codebase modernization | `modernization.md` |
+| Model selection | `model-selection.md` |
+| AI-readiness checklist | `ai-project-checklist.md` |
+
+For each matched file: check if it is present in this conversation. If a matching file is missing, ask the user before proceeding:
+> "I see your stack includes [technology]. Should I wait for `[filename]` before starting, or continue without it?"
+
+**Important:** Files must be attached to this conversation — copying them to the same folder is not enough.
 
 ---
 
@@ -9,6 +46,8 @@
 Project name     : 
 Short description: 
 Tech stack       : 
+Scaffold created : [ ] Yes — created with: ___  (e.g. create-next-app, npm create vite)
+                   [ ] No — stop, create the scaffold first, then return here
 Primary AI tool  : [ ] Claude Code  [ ] Cursor  [ ] Copilot  [ ] Other: ___
 Repo location    : 
 ```

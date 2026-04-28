@@ -7,6 +7,8 @@
 > *"Audit this project against every section. For each item report: current state, risk level (Critical/High/Medium/Low), and recommended fix."*
 > At the end ask Claude to produce `security-audit.md` with traffic-light status and a prioritized remediation list.
 >
+> If no base file (`fresh.md`, `new.md`, or `legacy.md`) is attached alongside this one, run a standalone audit: treat each section's guidelines as a checklist, assess the current state (✅ pass / ⚠️ partial / ❌ missing), and save a report as `nextjs-security-audit-YYYY-MM-DD.md`.
+>
 > **Audit strategy — start here:**
 > 1. `next.config.ts` — headers(), redirects, CSP
 > 2. `middleware.ts` — auth guards, rate limiting
