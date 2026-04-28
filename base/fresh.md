@@ -1,5 +1,7 @@
 # Fresh Project — AI-Readiness Audit
-> You are auditing an existing, recently-started project to make it fully ready for AI-assisted development. For each item: check the current state, assign a status (✅ pass / ⚠️ partial / ❌ missing), fix or scaffold what's missing, and document what you did. Do not change production logic — only add missing config and documentation.
+> You are auditing an existing, recently-started project to assess its readiness for AI-assisted development. For each item: check the current state, assign a status (✅ pass / ⚠️ partial / ❌ missing), and record the gap with a recommended fix.
+>
+> **Do not create, edit, or delete any files during the audit.** Your only output is the audit report. After presenting the report, wait for the user to explicitly ask you to implement specific items before making any changes.
 
 ---
 
@@ -60,19 +62,21 @@ Known gaps       : (anything you already know is missing)
 
 - [ ] `CLAUDE.md` exists and is accurate
   - Contains: project overview, stack, folder structure, naming conventions, areas to avoid
-  - If missing: create it. If outdated: update it to reflect current state.
+  - If missing or outdated: flag as ❌ and add to the Prioritized Action List
 - [ ] `.cursorrules` or `.cursor/rules/*.mdc` exists (if Cursor is used)
   - Suggested split: `shared.mdc`, `frontend.mdc`, `backend.mdc`, `testing.mdc`
-  - If missing: generate from current codebase
+  - If missing: flag as ❌ and add to the Prioritized Action List
 - [ ] `.github/copilot-instructions.md` exists (if Copilot is used)
 - [ ] All instruction files are under 500 lines each
 
-**Action if files are missing:** Read the existing codebase (entry points, folder structure, key files) and generate CLAUDE.md with:
+**If files are missing:** Flag as ❌ and add to the Prioritized Action List with a suggested content outline:
 - One-paragraph project description
 - Tech stack list
 - Folder map with one-line descriptions
 - Observed naming and coding conventions
 - Any patterns you notice that should be preserved
+
+Do not generate these files during the audit — wait for the user to ask.
 
 ---
 
@@ -80,18 +84,14 @@ Known gaps       : (anything you already know is missing)
 
 **Why this matters:** AI should understand the project before making changes. Generate this understanding once and store it permanently.
 
-- [ ] Read `README.md` — does it accurately describe the project? Update if not.
+- [ ] Read `README.md` — does it accurately describe the project? Note discrepancies in the report.
 - [ ] Identify entry points (main files, route definitions, API handlers)
 - [ ] Map top-level folder structure and understand what each folder does
 - [ ] Identify the 3–5 most important files (high-change rate or core business logic)
-- [ ] Add an **Architecture Summary** section to `CLAUDE.md`:
-  ```
-  ## Architecture Summary
-  [1–2 paragraph description of how the app is structured, 
-  data flows, key components and how they connect]
-  ```
+- [ ] Does `CLAUDE.md` contain an **Architecture Summary** section?
+  - If not: flag as ❌ and add to the Prioritized Action List
 - [ ] Check if `.ai/` folder exists with planning documents (prd.md, tech-stack.md, etc.)
-  - If not: create `.ai/` folder and add a `context.md` with a brief project description
+  - If not: flag as ❌ and add to the Prioritized Action List
 
 ---
 
@@ -110,9 +110,8 @@ Known gaps       : (anything you already know is missing)
   - Run: `tsc --noEmit` (TS), `mypy src/` (Python), etc.
   - Report error count. Do not fix all — flag the top 3 worst files.
   - **Status: ✅ / ⚠️ (N errors) / ❌ (not configured)**
-- [ ] If linter/formatter is missing: scaffold a minimal config appropriate for the stack
-
-Document in CLAUDE.md: `npm run lint`, `npm run format`, `npm run typecheck` (or equivalent).
+- [ ] If linter/formatter is missing: flag as ❌ and add a recommended config to the Prioritized Action List
+- [ ] Are lint/format/typecheck commands documented in CLAUDE.md? Flag as ❌ if not.
 
 ---
 
@@ -135,14 +134,14 @@ Document in CLAUDE.md: `npm run lint`, `npm run format`, `npm run typecheck` (or
 - [ ] `.env` is in `.gitignore`
   - Verify: `git check-ignore -v .env` — should output a match
 - [ ] `.env.example` exists and lists every required variable
-  - If missing: create it by reading `.env` structure (values replaced with placeholders)
+  - If missing: flag as ❌ and add to the Prioritized Action List
 - [ ] Scan tracked files for hardcoded secrets:
   ```bash
   git grep -rn "sk-\|api_key\|password\s*=\|secret\s*=\|token\s*=" -- ':!*.example' ':!*.md'
   ```
-  Report any hits. Do not automatically remove — flag for human review.
+  Report any hits. Do not remove — flag for human review.
 - [ ] `.cursorignore` / `.claudeignore` exists and excludes `.env*`
-  - If missing: create it with `.env*` entry
+  - If missing: flag as ❌ and add to the Prioritized Action List
 - [ ] Check git history for accidentally committed secrets:
   ```bash
   git log --all --full-history -- "*.env" "**/.env"
@@ -160,7 +159,7 @@ Document in CLAUDE.md: `npm run lint`, `npm run format`, `npm run typecheck` (or
   - Good: `feat: add user auth`, `fix: prevent null ref in session`
   - Bad: `fix`, `update`, `wip`, `asdf`
 - [ ] Conventional commits adopted? (`feat:`, `fix:`, `chore:`, `docs:`, `refactor:`, `test:`)
-  - If not: add recommendation and format to CLAUDE.md
+  - If not: flag as ❌ and add to the Prioritized Action List
 - [ ] `.gitignore` appropriate for the stack?
   - Check for common omissions (build artifacts, IDE files, OS files)
   - Reference: gitignore.io for stack-specific templates
@@ -209,13 +208,15 @@ Document in CLAUDE.md: `npm run lint`, `npm run format`, `npm run typecheck` (or
 - [ ] Identify the 3 most critical paths that have NO test coverage
   - Priority: auth flows, payment/billing logic, data mutation endpoints
 - [ ] Is there a single command to run all tests?
-  - If not: add it to `package.json` scripts or a `Makefile`
+  - If not: flag as ❌ and add to the Prioritized Action List
 
 ---
 
 ## Deliverables
 
-At the end of this audit, produce `audit-report-YYYY-MM-DD.md` (use today's date) in the `.ai/` or `ai-audit/` folder — whichever exists in this project. If a previous report already exists, do not overwrite it — create a new file with today's date.
+The audit report is the **only file you create** during the audit. Do not create CLAUDE.md, .env.example, config files, or any other project files — those go on the Prioritized Action List for the user to request separately.
+
+Produce `audit-report-YYYY-MM-DD.md` (use today's date) in the `.ai/` or `ai-audit/` folder — whichever exists in this project. If neither exists, save to the project root. If a previous report already exists, do not overwrite it — create a new file with today's date.
 
 ```markdown
 # AI-Readiness Audit — [Project Name] — YYYY-MM-DD
@@ -237,9 +238,6 @@ At the end of this audit, produce `audit-report-YYYY-MM-DD.md` (use today's date
 | Module structure        | ✅/⚠️/❌ | |
 | Testing                 | ✅/⚠️/❌ | |
 
-## Files Created / Updated
-- [list]
-
 ## Prioritized Action List
 1. [Most critical — blocks AI work]
 2. [Important — should fix soon]
@@ -247,4 +245,11 @@ At the end of this audit, produce `audit-report-YYYY-MM-DD.md` (use today's date
 
 ## Issues Requiring Human Decision
 - [anything that needs manual review, e.g., exposed secrets, vulnerable deps]
+
+## Nice to Have
+- [ ] `.ai/prd.md` — product goals, user personas, success metrics (helps AI understand *why* features exist)
+- [ ] `.ai/tech-stack.md` — technology choices with rationale (e.g., "we use X instead of Y because…")
+- [ ] `.ai/decisions/` — Architecture Decision Records for non-obvious choices
+- [ ] `CONTRIBUTING.md` — branch strategy, PR conventions, review process
+- [ ] `.ai/glossary.md` — domain-specific terms AI should know (e.g., "a 'session' here means X, not a user session")
 ```

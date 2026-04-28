@@ -110,11 +110,11 @@ Without this, compaction may preserve the general direction but lose the specifi
 
 ---
 
-## 5. The Rule of Three
+## 5. Three-Correction Reset Heuristic
 
-**If you have corrected the AI on the same point three times in one conversation, stop and reset.**
+**If you corrected the AI three times on the same point in one conversation, reset the session.**
 
-The context is poisoned. The AI has learned a wrong pattern and will keep reproducing it. No amount of correction within the same session will reliably fix it.
+At that stage, the thread usually carries too much conflicting state. Further corrections often have diminishing returns compared to a clean restart.
 
 **Recovery procedure:**
 1. Ask the AI to produce `status.md` (what's done, what's next, key decisions)

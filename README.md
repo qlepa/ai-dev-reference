@@ -79,7 +79,7 @@ Attach these to any conversation where the topic is relevant. They work alongsid
 | [`topics/testing.md`](topics/testing.md) | Test strategy and setup. Covers the Test Plan → Vitest → Playwright pipeline, characterization tests for legacy code, Page Object Model, data-testid conventions, dedicated test databases, and CI integration. |
 | [`topics/cicd.md`](topics/cicd.md) | GitHub Actions pipelines. Covers PR pipeline (parallel jobs), deploy pipeline (sequential with `needs:`), secrets management, branch protection rules, caching, and AI-powered CI steps. |
 | [`topics/modernization.md`](topics/modernization.md) | Modernizing a legacy codebase. Covers AI-rewrite vs codemod vs manual classification, the hybrid approach (codemod 80% + AI 20%), migration guides as AI context, Domain-Driven Design with AI, and safe modernization checklists. |
-| [`topics/model-selection.md`](topics/model-selection.md) | Choosing the right model for a task. Covers the coder vs architect model categories, a decision matrix (Haiku/Sonnet/Opus), why English saves 33–40% tokens, multi-model workflows, and cost management. |
+| [`topics/model-selection.md`](topics/model-selection.md) | Choosing the right model for a task. Covers execution vs reasoning workloads, practical model choice, prompt language trade-offs, multi-model workflows, and cost management. |
 | [`topics/ai-project-checklist.md`](topics/ai-project-checklist.md) | Auditing a project's AI-readiness. A 36-item Yes/No checklist across: instruction files, automated quality gates, Claude Code features, codebase structure, security, cost optimization, and workflow patterns. Produces a score with a maturity assessment. |
 
 ---
@@ -130,9 +130,15 @@ This library is vendor-neutral by design.
 ## Design Principles
 
 - **No cross-file dependencies** — every file is readable standalone
-- **English throughout** — 33–40% fewer tokens than equivalent content in other languages
+- **English by default** — usually shorter prompts and more room for code/context
 - **Tag: CRITICAL / RECOMMENDED / OPTIONAL** — the checklist file uses 🔴/🟡/🟢 tags so AI knows what to do first
 - **No hypothetical advice** — every pattern here is derived from real AI-assisted development workflows
+
+---
+
+## Sources
+
+The knowledge in this library comes from personal research and hands-on experience, supplemented by courses on AI-assisted development — particularly [10xDevs](https://przeprogramowani.pl) and [AI Devs](https://aidevs.pl), both of which I highly recommend.
 
 ---
 

@@ -53,10 +53,10 @@ Not all code deserves the same rigor. The right approach depends on the risk of 
 ## 3. Language Choice
 
 **Use English for prompts** unless you have a specific reason not to:
-- English requires 33–40% fewer tokens than Polish or other European languages for equivalent content
-- Fewer tokens = faster responses + lower cost + more room in the context window for your actual code
+- In practice, English prompts are often shorter, which leaves more context window for code and logs
+- Shorter prompts usually mean faster responses and lower cost on usage-based plans
 - On flat-rate plans (Copilot, Windsurf): language choice does not affect cost — use Polish freely
-- On usage-based plans (Cursor pay-as-you-go, direct API): Polish costs ~50% more tokens — use English
+- On usage-based plans (Cursor pay-as-you-go, direct API): compare token usage in your own workflow and optimize where it matters
 - Exception: if you need the model to reason about Polish text (e.g., UI copy, error messages), write that content in Polish but keep surrounding instructions in English
 
 ---
@@ -106,40 +106,44 @@ Wait for my answers before doing any implementation.
 
 AI models are trained on human feedback and learn to agree with users. This creates a systematic bias toward telling you what you want to hear. Use these techniques to counteract it.
 
-### 5.1 Devil's Advocate
-Force the AI to argue against its own recommendation:
+### 6.1 Unknown Unknowns
+Surface what you don't know you don't know before committing to a direction:
 ```
-You just proposed [solution]. Now argue as strongly as possible for why this is the WRONG approach. 
-What are the strongest objections to it? What could go badly?
-```
-
-### 5.2 Pre-Mortem
-Project the plan into a failure scenario before committing:
-```
-Imagine it is 6 months from now. We implemented this plan and it failed badly. 
-What went wrong? List the 5 most likely causes of failure.
+Before we proceed: what important risks, constraints, or consequences am I NOT asking about?
+What would an expert in this area immediately flag that I haven't mentioned?
 ```
 
-### 5.3 Alternative Comparison
-Never accept the first option without seeing alternatives:
+### 6.2 Force Alternatives
+Never accept the first option. Make the AI present real trade-offs:
 ```
-Give me 3 distinct approaches to this problem. For each: pros, cons, risks, and when you would choose it.
-Do NOT recommend just one — present all three neutrally so I can decide.
-```
-
-### 5.4 Perspective Shift
-Ask the AI to reason from a specific stakeholder's viewpoint:
-```
-Evaluate this solution from the perspective of [security engineer / user with slow internet / 
-junior developer maintaining this in 2 years / someone who has never seen this codebase].
-What concerns or blockers would they raise?
+Give me 3 meaningfully different approaches to this problem.
+For each: how it works, what breaks at scale, what the maintenance burden is, and when you'd choose it.
+Do NOT pick a winner — I will decide.
 ```
 
-### 5.5 Unknown Unknowns
-Explicitly ask for what the AI might be hiding:
+### 6.3 Failure Mode Analysis
+Project the plan forward into a failure before committing:
 ```
-What important considerations, risks, or factors am I NOT asking about that I should be?
-What would you tell me if I wasn't here to approve or reject your ideas?
+Assume we shipped this and it failed in production 3 months later.
+What are the 3 most likely root causes? What early warning signs would have been visible?
+```
+
+### 6.4 Hostile Reviewer
+Force the AI to attack its own output:
+```
+You just proposed [solution]. Now switch roles: you are a senior engineer who thinks this is the wrong call.
+Make the strongest possible case against it. Be specific — no generic concerns.
+```
+
+### 6.5 Stakeholder Stress Test
+Run the solution through perspectives that weren't in the original prompt:
+```
+Evaluate this from the perspective of:
+- A security engineer looking for exploits
+- A junior developer who will maintain this in 18 months
+- An on-call engineer debugging this at 3am with no context
+
+What would each of them object to?
 ```
 
 **When to use anti-sycophancy:**
@@ -178,7 +182,7 @@ Continue from "Next step" without re-doing what's already done.
 - Output quality degrades over a long session
 - You've been debugging the same issue for 5+ messages without progress
 
-**Rule of Three:** If you have corrected the AI on the same point three times in one conversation, stop and reset. The context is poisoned.
+**Three-correction reset heuristic:** if you corrected the AI three times on the same issue in one thread, start a fresh session and continue from a short handover note.
 
 ---
 

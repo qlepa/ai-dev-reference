@@ -3,38 +3,37 @@
 
 ---
 
-## 1. The Two Categories of Models
+## 1. The Two Modes of Work
 
-Not all AI models are equal. The key distinction for development work:
+The most useful split is not by model family but by the nature of the task:
 
-| Category | Best for | Examples (as of mid-2025) |
-|----------|----------|--------------------------|
-| **Coder models** | Code generation, autocomplete, refactoring, test writing | Claude Sonnet 4.6, GPT-5-Codex, Grok-Code-Fast |
-| **Architect models** | System design, complex reasoning, architecture decisions, tradeoff analysis | Gemini 2.5 Pro, GPT-5 High/Medium, Claude Opus 4.6 |
+| Mode | What it means | Best model tier |
+|------|---------------|-----------------|
+| **Execution** | The output is well-defined. You could verify it with a test, a diff, or your own eyes. | Fast, cheaper models — Claude Sonnet, GPT-5-Codex, Grok-Code-Fast |
+| **Reasoning** | The output requires judgment. You cannot easily verify if the answer is correct without thinking hard yourself. | Capable, slower models — Claude Opus, Gemini 2.5 Pro, GPT-5 High/Medium |
 
-**Rule:** Use Coder models for the majority of work (faster, cheaper). Escalate to Architect models only for decisions that require deep reasoning.
+**The practical split:** ~85% of daily development tasks are Execution. Reserve Reasoning models for the 15% where the cost of a wrong answer is high and hard to detect.
 
 ---
 
-## 2. Decision Matrix
+## 2. Decision Guide
 
-### Use a Coder model when:
+### Execution mode — use the faster, cheaper model:
 - Writing or refactoring code to a clear specification
 - Writing tests for existing functions
 - Fixing bugs with a known root cause
-- Generating boilerplate from a pattern
-- Running agentic tasks with clear steps
-- Code review of specific files
+- Generating boilerplate, CRUD endpoints, documentation
+- Running agentic tasks with well-defined steps
 
-### Use an Architect model when:
+### Reasoning mode — use the more capable model:
 - Designing a new system or choosing between architectures
 - Evaluating long-term trade-offs (e.g., monolith vs microservices)
-- Analyzing security implications of a design
-- Debugging a complex, multi-system problem with unclear root cause
-- Creating a PRD or technical spec from scratch
-- Anti-sycophancy review of important decisions (see prompting.md)
+- Analyzing security implications across a full flow
+- Debugging a multi-system problem with unknown root cause
+- Writing a PRD or technical spec from a rough idea
+- Anti-sycophancy review of consequential decisions (see prompting.md)
 
-**Cost signal:** If a task can be specified clearly enough that the output is verifiable, use a Coder model. If the task requires judgment that you cannot easily verify, use an Architect model.
+**Signal:** If you could write a test that verifies the output is correct, it's Execution. If the "right answer" requires human judgment to evaluate, it's Reasoning.
 
 ---
 
@@ -56,9 +55,9 @@ In Claude Code:
 **Always write prompts in English unless there is a specific reason not to.**
 
 Why it matters for cost and quality:
-- English requires 33–40% fewer tokens than Polish, French, German, Spanish for equivalent content
-- Fewer tokens = faster responses + lower cost + more context budget for actual code
-- Most models are trained primarily on English — quality degrades measurably in non-English prompts for technical tasks
+- For many technical tasks, English prompts are shorter and easier for models to follow consistently
+- Lower token usage usually means faster responses, lower cost, and more context budget for actual code
+- Most coding examples in public datasets are in English, so outputs are often more stable in English-first prompts
 
 **When to use non-English:**
 - The output itself is in that language (UI copy, error messages for users)
@@ -83,7 +82,7 @@ Polish (data to process):
 
 ### The main cost drivers
 1. **Context size** — more tokens in = higher cost. Manage with `/compact` and focused prompts.
-2. **Model tier** — Architect models cost 5–10x more per token than Coder models.
+2. **Model tier** — Reasoning-mode models cost 5–10x more per token than Execution-mode models.
 3. **Agentic loops** — agents make many calls. A runaway agent can be expensive.
 
 ### Practical limits to set
@@ -96,7 +95,7 @@ Polish (data to process):
 - Use `/compact` before switching to a new sub-task — resets accumulated conversation cost
 - Reference files by path (`see src/auth.ts`) instead of pasting large code blocks
 - Batch related small changes into one prompt rather than many small prompts
-- Use the Coder model for 90% of tasks; switch to Architect only when necessary
+- Use Execution-mode models for 90% of tasks; switch to Reasoning-mode only when necessary
 
 ### When Cursor is cheaper than Claude Code
 - For autocomplete-heavy work (writing repetitive code), Cursor's inline completion may be more cost-effective
@@ -107,18 +106,18 @@ Polish (data to process):
 
 ## 6. Model Selection by Task Type
 
-| Task | Recommended model tier | Notes |
-|------|----------------------|-------|
-| Write a React component | Coder | Specify behavior clearly |
-| Write unit tests for a function | Coder | Provide the function + test cases |
-| Fix a failing test | Coder | Paste error + relevant code |
-| Refactor a 200-line file | Coder | Provide the file + desired structure |
-| Design a new API | Architect | Open-ended, requires judgment |
-| Choose between SQL and NoSQL | Architect | Trade-off analysis |
-| Security review of auth flow | Architect | Risk assessment requires reasoning |
-| Debug a production incident | Architect | Unknown root cause, systemic reasoning |
-| Generate CRUD endpoints | Coder | Template-driven, verifiable output |
-| Evaluate a modernization plan | Architect | Strategic decision |
+| Task | Mode | Notes |
+|------|------|-------|
+| Write a React component | Execution | Specify behavior clearly |
+| Write unit tests for a function | Execution | Provide the function + test cases |
+| Fix a failing test | Execution | Paste error + relevant code |
+| Refactor a 200-line file | Execution | Provide the file + desired structure |
+| Generate CRUD endpoints | Execution | Template-driven, verifiable output |
+| Design a new API | Reasoning | Open-ended, requires judgment |
+| Choose between SQL and NoSQL | Reasoning | Trade-off analysis |
+| Security review of auth flow | Reasoning | Risk assessment requires reasoning |
+| Debug a production incident | Reasoning | Unknown root cause, systemic reasoning |
+| Evaluate a modernization plan | Reasoning | Strategic decision |
 
 ---
 
@@ -127,15 +126,15 @@ Polish (data to process):
 For complex tasks, use models in sequence:
 
 **Design → Implement pattern:**
-1. Architect model: "Design the data model and API surface for [feature]" → get a spec
-2. Coder model: "Implement this spec" (paste the spec) → get code
-3. Coder model: "Write tests for this implementation" → get tests
+1. Reasoning model: "Design the data model and API surface for [feature]" → get a spec
+2. Execution model: "Implement this spec" (paste the spec) → get code
+3. Execution model: "Write tests for this implementation" → get tests
 
 **Review → Fix pattern:**
-1. Architect model: "Review this PR for security and architecture issues" → get findings
-2. Coder model: "Fix these specific issues: [paste findings]" → get fixes
+1. Reasoning model: "Review this PR for security and architecture issues" → get findings
+2. Execution model: "Fix these specific issues: [paste findings]" → get fixes
 
-**This separation is powerful:** Architect models are expensive for generation but excellent for analysis. Coder models are cheap and fast for generation when given clear specs.
+**This separation is powerful:** Reasoning models are expensive for generation but excellent for analysis. Execution models are cheap and fast for generation when given clear specs.
 
 **Cross-model validation pattern:**
 
@@ -169,15 +168,15 @@ Or reversed:
 
 - Vendors optimize for specific benchmarks — scores can be gamed
 - Academic benchmarks don't represent real-world messiness
-- **SWE-Lancer finding:** Even the best models solve only ~20% of real Upwork software tasks autonomously — benchmarks are far more optimistic than practice
-- **Better signal:** OpenRouter model rankings, which reflect actual user queries across millions of real tasks, not curated test sets
+- Public benchmark results are useful, but they overestimate day-to-day autonomy on messy real projects
+- Better signal: your own acceptance tests on representative tasks plus real usage data over a few weeks
 
 **Practical approach:**
-1. Use OpenRouter rankings as a discovery tool for new models
-2. Run a "vibe check" — test the model on YOUR actual task type for 30 minutes
-3. If high stakes, run `promptfoo` evals (see Section 9)
+1. Use public rankings as a shortlist, not as a final decision
+2. Run a short trial on your real task mix (same prompts, same success criteria)
+3. For high-stakes workflows, run `promptfoo` evals (see Section 9)
 
-**Buying pattern to avoid:** Switching models every week based on news/benchmarks. Pick one strong Coder and one strong Architect, use them consistently, update only when a new model clearly outperforms on your specific tasks.
+**Buying pattern to avoid:** Switching models every week based on news/benchmarks. Pick one strong Execution-mode model and one strong Reasoning-mode model, use them consistently, update only when a new model clearly outperforms on your specific tasks.
 
 ---
 

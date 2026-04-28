@@ -1,5 +1,7 @@
 # Legacy Project — Onboarding & Modernization
-> You are onboarding to a legacy or long-running codebase and preparing it for safe, AI-assisted modernization. **Do not change production logic yet.** Your goal in this session is to understand the system, create a safety net, and produce a clear map for future work. Every action must be reversible or additive-only.
+> You are onboarding to a legacy or long-running codebase and preparing it for safe, AI-assisted modernization. **Do not change production logic yet.** Your goal in this session is to understand the system and produce a clear map for future work.
+>
+> **Do not create or edit project files (CLAUDE.md, test files, config files) during this session.** Flag them in the Prioritized Action List. The only files you may create are analysis/report outputs (ARCHITECTURE.md, dead-code-report, modernization-plan, the onboarding report). After presenting the report, wait for the user to explicitly ask you to implement specific items.
 
 ---
 
@@ -163,15 +165,16 @@ Typical critical paths:
 - Public API endpoints
 - Data export or report generation
 
-### 2.3 Create Characterization Tests (if tests are sparse/absent)
+### 2.3 Characterization Tests (if tests are sparse/absent)
 
-For each critical path identified above:
-- Write a test that captures the **current behavior** (not ideal behavior — actual behavior)
-- These are regression guards: they pass today, and if they break after a change, you know something regressed
-- Name them clearly: `characterization_test_*` or put them in `tests/characterization/`
-- Do NOT refactor the code to make tests pass — write tests that pass against the code AS IS
+For each critical path identified above, add it to the Prioritized Action List with:
+- Which path needs a characterization test
+- What behavior it should capture (current behavior, not ideal)
+- Suggested test name and location (`tests/characterization/`)
 
-> Characterization tests document what code *does*, not what it *should* do. They are your safety net, not your specification.
+Do not write the tests during this session — flag them and wait for the user to ask.
+
+> Characterization tests document what code *does*, not what it *should* do. They are a safety net, not a specification.
 
 ---
 
@@ -179,9 +182,13 @@ For each critical path identified above:
 
 **Goal:** CLAUDE.md for a legacy project must document not just conventions, but also *what NOT to touch* and *why existing patterns exist*.
 
-### 3.1 Create CLAUDE.md
+### 3.1 Assess CLAUDE.md
 
-Create `CLAUDE.md` in the repo root. For legacy projects, it must include these legacy-specific sections in addition to the standard content:
+Check if `CLAUDE.md` exists in the repo root.
+- If it exists: review it and note any gaps in the report (missing legacy-specific sections, outdated info).
+- If it is missing: flag as ❌ in the Prioritized Action List. Do not create it now — wait for the user to ask.
+
+For legacy projects, CLAUDE.md must include these sections in addition to the standard content:
 
 ```markdown
 # CLAUDE.md — [Project Name]
@@ -347,7 +354,7 @@ At the end of this session, produce `legacy-onboarding-report-YYYY-MM-DD.md` (us
 ## Test Coverage State
 - Total tests: N
 - Critical paths covered: N/M
-- Characterization tests created: N
+- Critical paths needing characterization tests: [list]
 
 ## Security Findings
 [Brief list — severity, location, nature]
@@ -360,9 +367,18 @@ At the end of this session, produce `legacy-onboarding-report-YYYY-MM-DD.md` (us
 ## What NOT to Touch (and why)
 - [Module] — [Reason]
 
-## Files Created This Session
-- [list]
+## Prioritized Action List
+1. [Most critical — e.g., create CLAUDE.md, write characterization tests for X]
+2. ...
+3. ...
 
 ## Open Questions for the Team
 - [Things that need human knowledge to resolve]
+
+## Nice to Have
+- [ ] `.ai/prd.md` — original or current product requirements with business context
+- [ ] `.ai/tech-stack.md` — technology decisions and rationale (especially valuable for legacy tech choices that may seem odd without context)
+- [ ] `.ai/decisions/` or `adr/` — Architecture Decision Records explaining historical choices ("why is auth done this way?")
+- [ ] `.ai/runbook.md` — deployment steps, known failure modes, on-call procedures
+- [ ] `.ai/glossary.md` — domain terminology and business concepts (critical in legacy systems with company-specific jargon)
 ```
